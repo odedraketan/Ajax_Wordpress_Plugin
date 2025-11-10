@@ -1,27 +1,50 @@
-jQuery( document ).on( 'click', '.house_and_land_link', function() {
-	var lot_width = jQuery(this).val();
-	var ab=jQuery('.house_and_land_link').html();
-	jQuery.ajax({
-		url : handl.ajax_url,
-		type : 'get',
-		data : {
-			action : 'house_and_land_post',
-			lotwidth :'0 , '+lot_width
-		},
-		beforeSend: function( xhr ) {
-			jQuery('.house_and_land_link').addClass('buttonload');
-			jQuery('.house_and_land_link').html("<i class='fa fa-spinner fa-spin'></i>Loading");
-		},
-		success : function( response ) {
-			jQuery('.house_and_land_link').removeClass('buttonload');
-			jQuery('.result_house_and_land').html( response );
-			jQuery('.house_and_land_link').html(ab);
-			jQuery('html, body').animate({
-				scrollTop: jQuery('.result_house_and_land').offset().top - 50
-			}, 800, function () {
-			});
-		}
-	});
+jQuery(document).ready(function ($) {
+    $(document).on('click', '.house_and_land_link', function (e) {
+        e.preventDefault();
 
-	return false;
-})
+        const $btn = $(this);
+        const lotWidth = $.trim($btn.val());
+        const originalHTML = $btn.html();
+
+        if (!lotWidth) return;
+
+        $.ajax({
+            url: handl.ajax_url,
+            type: 'GET',
+            data: {
+                action: 'house_and_land_post',
+                nonce: handl.nonce,
+                lotwidth: `0,${lotWidth}`,
+            },
+            beforeSend: function () {
+                $btn
+                    .prop('disabled', true)
+                    .addClass('buttonload')
+                    .html("<i class='fa fa-spinner fa-spin'></i> Loading...");
+            },
+            success: function (response) {
+                if (response.success) {
+                    $('.result_house_and_land').html(response.data);
+                    $('html, body').animate(
+                        {
+                            scrollTop: $('.result_house_and_land').offset().top - 50,
+                        },
+                        600
+                    );
+                } else {
+                    $('.result_house_and_land').html('<p>No results found.</p>');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX Error:', error);
+                alert('Something went wrong. Please try again.');
+            },
+            complete: function () {
+                $btn
+                    .prop('disabled', false)
+                    .removeClass('buttonload')
+                    .html(originalHTML);
+            },
+        });
+    });
+});
