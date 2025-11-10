@@ -1,7 +1,7 @@
 # 🏡 House and Land Search Plugin
 
 **Version:** 1.1.0  
-**Author:** Coopso  
+**Author:** KO  
 **Requires WordPress:** 5.0+  
 **Tested up to:** 6.7  
 **License:** GPL-2.0-or-later  
@@ -140,14 +140,7 @@ If you find a bug or want to propose an enhancement, please open an issue on Git
 📜 License
 This plugin is licensed under the GPL-2.0-or-later license.
 
-Developed with ❤️ by Coopso
-
-yaml
-Copy code
-
----
-
-Would you like me to include a **shortcode** (e.g., `[house_and_land_search]`) that automatically renders the search form and result container for easier embedding on any page?
+Developed with ❤️ by KO
 
 
 
